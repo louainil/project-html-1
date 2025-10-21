@@ -1,149 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>portfolio</title>
+    <!-- Basic meta tags for character encoding and responsive viewport -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Portfolio of Lou — aspiring software developer. Projects, resume and contact." />
+    <title>Lou — Portfolio</title>
+
+    <!-- CSS styles -->
     <style>
-        body {
-            background-image: url(pic/iiiikl.jpg);
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+        /* CSS variables and root styles */
+        :root{
+            --bg-image: url("pic/iiiikl.jpg");    /* Background image path */
+            --accent: #1db954;                     /* Accent color (green) */
+            --muted: rgba(255,255,255,0.85);      /* Muted white text color */
+            --glass: rgba(0,0,0,0.45);            /* Glass effect background */
+            --max-width: 1100px;                  /* Maximum content width */
+            --radius: 12px;                       /* Border radius value */
+            --gap: 20px;                          /* Standard gap spacing */
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            color: var(--muted);
         }
-        p, h1, h2, h3, h4, ul, li, nav, section, footer, form, label, input, textarea, button {
-            color: white;
+
+        /* Basic reset and layout styles */
+        *{box-sizing:border-box}
+        html,body{height:100%}
+
+        /* Body background setup */
+        body{
+            margin:0;
+            background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), var(--bg-image);
+            background-size:cover;
+            background-attachment:fixed;
+            background-position:center;
+            -webkit-font-smoothing:antialiased;    /* Font smoothing for webkit */
+            -moz-osx-font-smoothing:grayscale;     /* Font smoothing for Firefox */
+            line-height:1.45;
+        }
+
+        /* Layout container */
+        .wrap{
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 28px;
+        }
+
+        /* Nav */
+        header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:var(--gap);
+            padding:10px 0;
+        }
+        .brand{
+            display:flex;
+            gap:12px;
+            align-items:center;
+            text-decoration:none;
+            color:var(--muted);
+        }
+        .brand h1{font-size:1.1rem;margin:0}
+        nav ul{
+            list-style:none;
+            display:flex;
+            gap:14px;
+            margin:0;
+            padding:0;
+            align-items:center;
+        }
+        nav a{
+            color:var(--muted);
+            text-decoration:none;
+            padding:8px 12px;
+            border-radius:8px;
+            transition:background .15s, transform .08s;
+            font-weight:600;
+            font-size:.95rem;
+        }
+        nav a:hover{background:rgba(255,255,255,0.06); transform:translateY(-2px)}
+
+        /* Hero */
+        .hero{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:var(--gap);
+            padding:44px 0;
+        }
+        .hero .intro{
+            background:var(--glass);
+            padding:28px;
+            border-radius:var(--radius);
+            max-width:65%;
+        }
+        .hero h2{margin:0 0 10px 0;font-size:2rem}
+        .hero p{margin:0 0 16px 0; color:rgba(255,255,255,0.92)}
+        .cta{
+            display:inline-block;
+            background:var(--accent);
+            color:#071014;
+            padding:10px 18px;
+            border-radius:10px;
+            text-decoration:none;
+            font-weight:700;
+        }
+
+        /* Sections */
+        section{
+            margin:36px 0;
+            background:linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.35));
+            padding:22px;
+            border-radius:12px;
+            backdrop-filter: blur(6px);
+        }
+        section h3{margin-top:0;color:#fff}
+
+        /* About */
+        .about{
+            display:flex;
+            gap:20px;
+            align-items:center;
+            flex-wrap:wrap;
+        }
+        .about .photo{
+            flex:0 0 180px;
+            height:180px;
+            border-radius:12px;
+            overflow:hidden;
+            background:#222;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border:2px solid rgba(255,255,255,0.06);
+        }
+        .about img{width:100%;height:100%;object-fit:cover;display:block}
+        .skills{margin-top:12px; display:flex; gap:8px; flex-wrap:wrap}
+        .skill{background:rgba(255,255,255,0.06); padding:6px 10px;border-radius:8px;font-weight:600}
+
+        /* Work grid */
+        .grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+            gap:16px;
+        }
+        .card{
+            background:rgba(255,255,255,0.03);
+            padding:12px;
+            border-radius:10px;
+            overflow:hidden;
+            border:1px solid rgba(255,255,255,0.04);
+        }
+        .card img{width:100%;height:140px;object-fit:cover;border-radius:8px}
+
+        /* Resume */
+        .timeline{display:flex;flex-direction:column;gap:12px}
+        .timeline-item{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px}
+
+        /* Contact form */
+        form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        form .full{grid-column:1/-1}
+        label{display:block;font-size:.9rem;margin-bottom:6px}
+        input,textarea{
+            width:100%;
+            padding:10px;
+            border-radius:8px;
+            border:1px solid rgba(255,255,255,0.08);
+            background:rgba(0,0,0,0.25);
+            color:var(--muted);
+        }
+        button{
+            background:var(--accent);
+            color:#071014;
+            padding:10px 14px;
+            border-radius:10px;
+            border:0;
+            cursor:pointer;
+            font-weight:700;
+        }
+
+        /* Footer */
+        footer{padding:14px 0;text-align:center;color:rgba(255,255,255,0.7)}
+        .socials a{margin:0 8px;color:var(--muted);text-decoration:none}
+
+        /* Responsive */
+        @media (max-width:800px){
+            .hero .intro{max-width:100%}
+            form{grid-template-columns:1fr}
+            nav ul{display:none}
+            header{gap:10px}
         }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav>
-        <div>
-            <h2>My portfolio </h2>
-            
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#work">Work</a></li>
-                <li><a href="#resume">Resume</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="wrap">
+        <header>
+            <a class="brand" href="#home" aria-label="Lou portfolio">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="white" stroke-opacity="0.12"/></svg>
+                <h1>Lou — Portfolio</h1>
+            </a>
 
-    <!-- Home Section -->
-    <section id="home">
-        <div>
-            <h1>Welcome to My Portfolio</h1>
-            <p>hello i'm new learning software developer</p>
-            <a href="#about">Learn More</a>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about">
-        <div>
-            <h2>About Me</h2>
-            <div>
-                <div>
-                    <img src="pic/per.jpg" alt="Profile Picture">
-                </div>
-                <div>
-                    <h3>Hello, I'm lou</h3>
-                    <p>I'm student in gomycode and new software developer i have a 2 weeks Experience</p>
-                    <p>When I'm not coding, you can find me hiking, doing sport, play vdio games</p>
-                    <h4>Skills:</h4>
-                    <ul>
-                        <li>HTML & CSS</li>
-                        
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Work Section -->
-    <section id="work">
-        <div>
-            <h2>My Work</h2>
-            <div>
-                <div>
-                    <h3>car rental</h3>
-                    <img src="pic/carre.jpg" alt="car">
-                    <p>i have cars to rent for daily use and for family too</p>
-                </div>
-               
-    </section>
-
-    <!-- Resume Section -->
-    <section id="resume">
-        <div>
-            <h2>Resume</h2>
-            <div>
-                <h3>Education</h3>
+            <nav aria-label="Primary">
                 <ul>
-                    <li>
-                
-                        <h4>Gomycode</h4>
-                        
-                        <p>learning software development and web development</p>
-                    </li>
-                   
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="#resume">Resume</a></li>
+                    <li><a href="#contact">Contact</a></li>
                 </ul>
-            </div>
-            
-    </section>
+            </nav>
+        </header>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <div>
-            <h2>Contact Me</h2>
-            <form>
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
+        <main>
+            <section id="home" class="hero" aria-labelledby="home-heading">
+                <div class="intro">
+                    <h2 id="home-heading">Hi — I'm Lou</h2>
+                    <p>I am an aspiring software developer learning web and software development at Gomycode. I build simple, clean projects while improving my skills every day.</p>
+                    <p><strong>Focus:</strong> HTML, CSS, JavaScript fundamentals, responsive design.</p>
+                    <a class="cta" href="#work">View Work</a>
                 </div>
-                
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                
-                <div>
-                    <label for="subject">Subject:</label>
-                    <input type="text" id="subject" name="subject">
-                </div>
-                
-                <div>
-                    <label for="message">Message:</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
-                
-                <div>
-                    <button type="submit">Send Message</button>
-                </div>
-            </form>
-            
-            <div>
-                <h3>Contact Information</h3>
-                <p>Email: nedjari088@gmail.com</p>
-                <p>Phone: 0791341641</p>
-                <p>Location: dergana</p>
-            </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer>
-        <div>
-            <p>&copy; 2023 My Portfolio. All rights reserved.</p>
-            <div>
-                <a href="#">instagram</a>
-                <a href="#">GitHub</a>
-               
+                <div aria-hidden="true" style="min-width:170px; text-align:center; color:rgba(255,255,255,0.6)">
+                    <div style="font-weight:700;font-size:1.05rem">Open to opportunities</div>
+                    <div style="margin-top:10px;font-size:.9rem">Based in Dergana</div>
+                </div>
+            </section>
+
+            <section id="about" aria-labelledby="about-heading">
+                <h3 id="about-heading">About Me</h3>
+                <div class="about">
+                    <div class="photo" aria-hidden="false">
+                        <img src="pic/per.jpg" alt="Lou — profile picture">
+                    </div>
+                    <div>
+                        <p><strong>Hello — I'm Lou.</strong> I'm a student at Gomycode and a beginner software developer with hands-on learning experience. I'm focused on front-end development and creating accessible interfaces.</p>
+                        <p>Outside coding I enjoy hiking, working out and playing video games.</p>
+
+                        <h4 style="margin:12px 0 8px 0">Skills</h4>
+                        <div class="skills" aria-label="Skills list">
+                            <span class="skill">HTML</span>
+                            <span class="skill">CSS</span>
+                            <span class="skill">Responsive Design</span>
+                            <span class="skill">Basic JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="work" aria-labelledby="work-heading">
+                <h3 id="work-heading">Selected Work</h3>
+                <div class="grid" role="list">
+                    <article class="card" role="listitem">
+                        <img src="pic/carre.jpg" alt="Car rental project screenshot">
+                        <h4 style="margin:10px 0 6px 0">Car Rental (Demo)</h4>
+                        <p style="margin:0;color:rgba(255,255,255,0.8)">Simple car rental listing — daily and family options. Built as a practice project.</p>
+                    </article>
+
+                    <!-- Add more project cards here -->
+                </div>
+            </section>
+
+            <section id="resume" aria-labelledby="resume-heading">
+                <h3 id="resume-heading">Resume</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <strong>Gomycode</strong> — Software Development student
+                        <div style="font-size:.9rem;color:rgba(255,255,255,0.7)">Learning web development, projects and hands-on exercises.</div>
+                    </div>
+
+                    <!-- Add more timeline items: internships, education, dates -->
+                </div>
+            </section>
+
+            <section id="contact" aria-labelledby="contact-heading">
+                <h3 id="contact-heading">Contact</h3>
+
+                <form action="#" method="post" novalidate>
+                    <div>
+                        <label for="name">Name</label>
+                        <input id="name" name="name" type="text" required placeholder="Your name">
+                    </div>
+
+                    <div>
+                        <label for="email">Email</label>
+                        <input id="email" name="email" type="email" required placeholder="you@example.com">
+                    </div>
+
+                    <div class="full">
+                        <label for="subject">Subject</label>
+                        <input id="subject" name="subject" type="text" placeholder="Message subject">
+                    </div>
+
+                    <div class="full">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="6" required placeholder="Write a short message"></textarea>
+                    </div>
+
+                    <div class="full" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+                        <div style="font-size:.95rem;color:rgba(255,255,255,0.8)">
+                            <div><strong>Email:</strong> nedjari088@gmail.com</div>
+                            <div><strong>Phone:</strong> 0791341641</div>
+                        </div>
+                        <button type="submit">Send Message</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+
+        <footer>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+                <div>&copy; <span id="year">2023</span> Lou — All rights reserved</div>
+                <div class="socials">
+                    <a href="#" aria-label="Instagram">Instagram</a>
+                    <a href="#" aria-label="GitHub">GitHub</a>
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
+
+    <script>
+        // set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
